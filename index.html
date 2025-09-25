@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IMPÉRIO 3D</title>
+<link rel="stylesheet" href="css/13259dc9ccfa6acd.css">
+<link rel="stylesheet" href="css/939b04bf09100f27.css">
+<style>
+  body { margin:0; }
+  /* Fallback fonts if Tailwind classes don't load */
+  body,button { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  /* Ensure stories container is visible */
+  #storiesContainer { height: 600px; max-height: 600px; background:#000; }
+  /* Hide any legacy grid below heading */
+  .legacy-testimonials-grid { display:none; }
+  /* === Tema IMPÉRIO 3D (inspirado na logo) === */
+  :root{
+    --stl-ink:#0b0b0f;
+    --stl-gold-0:#fff7c2;
+    --stl-gold-1:#ffe37a;
+    --stl-gold-2:#f5c64b;
+    --stl-gold-3:#d79a1e;
+    --stl-gold-4:#8b5e12;
+    --stl-cyan:#00c2ff;
+    --stl-magenta:#ff3ea5;
+    --stl-yellow:#ffd300;
+    --stl-blue:#00a7ff;
+  }
+  /* Dourado em estilo 3D para títulos e palavras-chave */
+  .stl-gold{
+    background: linear-gradient(180deg,var(--stl-gold-0) 0%,var(--stl-gold-1) 25%,var(--stl-gold-2) 50%,var(--stl-gold-3) 72%,var(--stl-gold-4) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.25), 0 6px 12px rgba(0,0,0,0.45);
+  }
+  /* Botões em dourado com profundidade */
+  .btn-gold{
+    background: linear-gradient(180deg,#fff1a6 0%, #f5c64b 50%, #d79a1e 100%);
+    color: #111827;
+    box-shadow: 0 8px 24px rgba(215,154,30,0.45), inset 0 1px 0 rgba(255,255,255,0.35);
+    border: 0;
+  }
+  .btn-gold:hover{ background: linear-gradient(180deg,#ffe98a 0%, #eab54a 55%, #b37a17 100%); box-shadow: 0 10px 28px rgba(215,154,30,0.55), inset 0 1px 0 rgba(255,255,255,0.4); }
+  .btn-gold:active{ transform: translateY(1px); }
+  /* Fundo escuro com respingos coloridos suaves (hero) */
+  .splash-hero{ position: relative; background: radial-gradient(1200px 800px at 50% 40%, rgba(255,255,255,0.06), transparent 40%), linear-gradient(135deg, #0b0b0f 0%, #111827 50%, #0b0b0f 100%); }
+  .splash-hero::before{
+    content:""; position:absolute; inset:-8%; pointer-events:none; opacity:.55; mix-blend-mode:screen; filter: blur(14px);
+    background:
+      radial-gradient(closest-side at 22% 32%, rgba(var(--stl-cyan-rgb,0,194,255),0.65), transparent 60%),
+      radial-gradient(closest-side at 78% 28%, rgba(255,62,165,0.65), transparent 60%),
+      radial-gradient(closest-side at 82% 78%, rgba(255,211,0,0.6), transparent 65%),
+      radial-gradient(closest-side at 18% 80%, rgba(0,167,255,0.6), transparent 65%);
+  }
+  /* Mobile: respingos mais suaves e menos blur para performance */
+  @media (max-width: 640px){
+    .splash-hero::before{ opacity:.42; filter: blur(10px); }
+    .splash-title::before{ filter: blur(5px); opacity:.9; }
+  }
+  /* Seções escuras com atmosfera da marca */
+  .stl-section-dark{ position: relative; background: linear-gradient(135deg, #0b0b0f 0%, #111827 50%, #0b0b0f 100%); }
+  .stl-section-dark::after{ content:""; position:absolute; inset:-10%; pointer-events:none; opacity:.22; mix-blend-mode:screen; filter: blur(24px); background:
+    radial-gradient(closest-side at 10% 15%, rgba(255,62,165,0.35), transparent 62%),
+    radial-gradient(closest-side at 90% 20%, rgba(0,194,255,0.35), transparent 62%),
+    radial-gradient(closest-side at 85% 85%, rgba(255,211,0,0.30), transparent 68%),
+    radial-gradient(closest-side at 15% 82%, rgba(0,167,255,0.30), transparent 68%);
+  }
+  /* Respingo decorativo atrás de títulos em seções claras */
+  .splash-title{ position: relative; display:inline-block; padding:0 .25em; }
+  .splash-title::before{
+    content:""; position:absolute; inset:-0.35em -0.45em; z-index:-1; filter: blur(6px);
+    background:
+      radial-gradient(closest-side at 20% 60%, rgba(255,62,165,0.35), transparent 55%),
+      radial-gradient(closest-side at 72% 38%, rgba(0,194,255,0.35), transparent 55%),
+      radial-gradient(closest-side at 58% 85%, rgba(255,211,0,0.35), transparent 60%),
+      radial-gradient(closest-side at 10% 20%, rgba(0,167,255,0.30), transparent 60%);
+    border-radius:14px;
+  }
+  /* Bordas douradas sutis em cards claros */
+  .card-gold{ border-color: rgba(245,198,75,0.35) !important; box-shadow: 0 6px 18px rgba(215,154,30,0.15), 0 1px 0 rgba(255,255,255,0.6) inset; }
+  .card-gold:hover{ box-shadow: 0 10px 28px rgba(215,154,30,0.22), 0 1px 0 rgba(255,255,255,0.7) inset; transform: translateY(-1px); transition: box-shadow .2s ease, transform .2s ease; }
+  /* Bordas douradas sutis em cards escuros */
+  .card-gold-dark{ border: 1px solid rgba(245,198,75,0.28); box-shadow: 0 8px 24px rgba(215,154,30,0.18); }
+  /* Splash colorido ao redor de cartões em fundo branco (estilo hero) */
+  .splash-card{ position: relative; background:#fff; }
+  .splash-card::after{
+    content:""; position:absolute; inset:-12%; border-radius:24px; pointer-events:none; z-index:-1;
+    filter: blur(22px); opacity:.38; mix-blend-mode:screen; background:
+      radial-gradient(closest-side at 20% 30%, rgba(255,62,165,0.35), transparent 60%),
+      radial-gradient(closest-side at 80% 25%, rgba(0,194,255,0.35), transparent 60%),
+      radial-gradient(closest-side at 75% 80%, rgba(255,211,0,0.30), transparent 65%),
+      radial-gradient(closest-side at 25% 85%, rgba(0,167,255,0.30), transparent 65%);
+  }
+  /* Cartão com o mesmo fundo da seção hero */
+  .splash-hero-card{ position:relative; overflow:hidden; background: radial-gradient(1200px 800px at 50% 40%, rgba(255,255,255,0.06), transparent 40%), linear-gradient(135deg, #0b0b0f 0%, #111827 50%, #0b0b0f 100%); }
+  .splash-hero-card::before{
+    content:""; position:absolute; inset:-10%; pointer-events:none; opacity:.55; mix-blend-mode:screen; filter: blur(14px); border-radius: inherit; z-index:0;
+    background:
+      radial-gradient(closest-side at 22% 32%, rgba(0,194,255,0.65), transparent 60%),
+      radial-gradient(closest-side at 78% 28%, rgba(255,62,165,0.65), transparent 60%),
+      radial-gradient(closest-side at 82% 78%, rgba(255,211,0,0.6), transparent 65%),
+      radial-gradient(closest-side at 18% 80%, rgba(0,167,255,0.6), transparent 65%);
+  }
+</style>
+</head>
+<body class="font-sans">
+  <main class="min-h-screen">
+    <div class="relative bg-gradient-to-r from-slate-800 to-slate-900 text-white text-center py-2 px-4 shadow-lg">
+      <div class="font-bold text-sm md:text-base stl-gold">🔥 OFERTA LIMITADA - APENAS 100 VAGAS DISPONÍVEIS - GARANTE JÁ A SUA! 🔥</div>
+    </div>
+
+
+    <section class="splash-hero text-white px-4 relative overflow-hidden" style="min-height:auto; display:flex; align-items:flex-start; justify-content:center; padding:24px 16px 60px;">
+      <div class="container mx-auto text-center relative z-10" style="max-width:100%; padding-left:0; padding-right:0;">
+        <div class="opacity-100 translate-y-0">
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">TRANSFORME SUA IMPRESSORA 3D EM UM <span class="stl-gold">IMPÉRIO LUCRATIVO</span></h1>
+          <h2 class="text-xl md:text-2xl lg:text-3xl mb-8 stl-gold font-semibold">Do Hobby ao Negócio de Sucesso: O Clube Completo para Empreendedores 3D</h2>
+          <img src="logoherofundotransparente.png" alt="IMPÉRIO 3D" class="mx-auto" style="width:92vw; max-width:1600px; height:auto; margin-top:8px; margin-bottom:24px; display:block;">
+          <p class="text-lg md:text-xl mb-12 max-w-4xl mx-auto text-gray-300 leading-relaxed">Pare de ser apenas um 'operador de impressora' e torne-se um <strong class="stl-gold">EMPREENDEDOR DE SUCESSO</strong> no mercado de impressão 3D.</p>
+          <button class="btn-gold font-bold py-6 px-12 text-xl rounded-full shadow-2xl">QUERO TRANSFORMAR MEU NEGÓCIO AGORA</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 bg-slate-100">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-slate-800 splash-title">Você se identifica com algum desses problemas?</h2>
+          <p class="text-xl text-slate-600 max-w-3xl mx-auto">A maioria das pessoas que possuem impressoras 3D enfrentam os mesmos obstáculos...</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200 card-gold">
+            <div class="flex items-start space-x-4"><span class="text-red-500 text-2xl flex-shrink-0">❌</span>
+              <div><h3 class="text-xl font-bold text-slate-800 mb-3">Você tem uma impressora 3D parada</h3>
+                <p class="text-slate-600 leading-relaxed">Comprou com grandes expectativas, mas agora ela só junta poeira porque não sabe como monetizar</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200 card-gold">
+            <div class="flex items-start space-x-4"><span class="text-red-500 text-2xl flex-shrink-0">❌</span>
+              <div><h3 class="text-xl font-bold text-slate-800 mb-3">Falta de conhecimento técnico</h3>
+                <p class="text-slate-600 leading-relaxed">Não sabe quais arquivos vender, como precificar ou onde encontrar demanda real no mercado</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200 card-gold">
+            <div class="flex items-start space-x-4"><span class="text-red-500 text-2xl flex-shrink-0">❌</span>
+              <div><h3 class="text-xl font-bold text-slate-800 mb-3">Medo de não dar certo</h3>
+                <p class="text-slate-600 leading-relaxed">Já tentou algumas coisas mas não deu resultado, e agora tem medo de investir tempo e dinheiro novamente</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200 card-gold">
+            <div class="flex items-start space-x-4"><span class="text-red-500 text-2xl flex-shrink-0">❌</span>
+              <div><h3 class="text-xl font-bold text-slate-800 mb-3">Não sabe por onde começar</h3>
+                <p class="text-slate-600 leading-relaxed">Existem milhares de possibilidades, mas você não tem um caminho claro e estruturado para seguir</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-16">
+          <p class="text-2xl font-bold text-slate-800 mb-4">Se você respondeu SIM para pelo menos um desses problemas...</p>
+          <p class="text-xl text-slate-600">Então você precisa conhecer a solução que já transformou a vida de centenas de pessoas!</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 bg-slate-100">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6 splash-title">VEJA ALUMAS IMPRESSÕES <span class="stl-gold">DE NOSSOS ALUNOS!</span></h2>
+        </div>
+
+        <div style="max-width: 100%; margin: 0 auto; padding: 15px;">
+          <div id="storiesContainer" style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); max-height: 600px; height:600px; width: 100%; background: #000;">
+            <div id="storiesTrack" style="display: flex; transition: transform 0.5s ease-in-out; height: 100%; transform: translateX(-400%);">
+              <div class="story-slide" style="min-width: 100%; height: 100%; position: relative; background: #000;">
+                <img decoding="async" src="depoimentos/01img.jpeg" alt="Depoimento Cliente 1" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+              </div>
+              <div class="story-slide" style="min-width: 100%; height: 100%; position: relative; background: #000;">
+                <video class="story-video" style="width: 100%; height: 100%; object-fit: cover; object-position: center center; pointer-events: none;" playsinline="">
+                  <source src="depoimentos/01vd.mp4" type="video/mp4">
+                </video>
+                <div class="story-controls" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; pointer-events: auto;">
+                  <button class="play-pause-btn" style="background: rgba(0, 0, 0, 0.7); border: none; border-radius: 50%; width: 60px; height: 60px; color: white; font-size: 24px; cursor: pointer; display: block;">►</button>
+                </div>
+              </div>
+              <div class="story-slide" style="min-width: 100%; height: 100%; position: relative; background: #000;">
+                <video class="story-video" style="width: 100%; height: 100%; object-fit: cover; object-position: center center; pointer-events: none;" playsinline="">
+                  <source src="depoimentos/02vd.mp4" type="video/mp4">
+                </video>
+                <div class="story-controls" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; pointer-events: auto;">
+                  <button class="play-pause-btn" style="background: rgba(0,0,0,0.7); border: none; border-radius: 50%; width: 60px; height: 60px; color: white; font-size: 24px; cursor: pointer; display: block;">►</button>
+                </div>
+              </div>
+              <div class="story-slide" style="min-width: 100%; height: 100%; position: relative; background: #000;">
+                <video class="story-video" style="width: 100%; height: 100%; object-fit: cover; object-position: center center; pointer-events: none;" playsinline="">
+                  <source src="depoimentos/03vd.mp4" type="video/mp4">
+                </video>
+                <div class="story-controls" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; pointer-events: auto;">
+                  <button class="play-pause-btn" style="background: rgba(0,0,0,0.7); border: none; border-radius: 50%; width: 60px; height: 60px; color: white; font-size: 24px; cursor: pointer; display: block;">►</button>
+                </div>
+              </div>
+              <div class="story-slide" style="min-width: 100%; height: 100%; position: relative; background: #000;">
+                <video class="story-video" style="width: 100%; height: 100%; object-fit: cover; object-position: center center; pointer-events: none;" playsinline="">
+                  <source src="depoimentos/04vd.mp4" type="video/mp4">
+                </video>
+                <div class="story-controls" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;">
+                  <button class="play-pause-btn" style="background: rgba(0, 0, 0, 0.7); border: none; border-radius: 50%; width: 60px; height: 60px; color: white; font-size: 24px; cursor: pointer; display: block;">►</button>
+                </div>
+              </div>
+            </div>
+            <button id="prevStory" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.7); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 20px; cursor: pointer; z-index: 20; display: block;">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="nextStory" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.7); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 20px; cursor: pointer; z-index: 20; display: block;">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div id="storyIndicators" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20;">
+              <span class="indicator active" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transform: scale(1);"></span>
+              <span class="indicator" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transform: scale(1);"></span>
+              <span class="indicator" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transform: scale(1);"></span>
+              <span class="indicator" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transform: scale(1);"></span>
+              <span class="indicator" style="width: 8px; height: 8px; border-radius: 50%; background: rgb(255, 193, 7); cursor: pointer; transform: scale(1.1);"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 stl-section-dark text-white relative overflow-hidden">
+      <div class="container mx-auto text-center relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8">A SOLUÇÃO QUE VAI <span class="stl-gold">MUDAR SUA VIDA</span></h2>
+        <div class="max-w-4xl mx-auto space-y-8 mb-12">
+          <p class="text-xl md:text-2xl leading-relaxed">IMPÉRIO 3D é o <strong class="stl-gold">ÚNICO programa no Brasil</strong> que vai além do técnico e te ensina a <strong class="stl-gold">PENSAR E AGIR COMO UM VERDADEIRO EMPREENDEDOR</strong> no mercado de impressão 3D.</p>
+          <p class="text-lg md:text-xl leading-relaxed text-gray-300">Não é apenas mais um curso de 'como imprimir'. É um <strong class="stl-gold">CLUBE COMPLETO DE TRANSFORMAÇÃO</strong> que vai te levar do hobby ao império lucrativo, com estratégias comprovadas, acesso a uma biblioteca de STLs e uma comunidade de empreendedores de alto nível.</p>
+        </div>
+        <button class="btn-gold font-bold py-6 px-12 text-xl rounded-full shadow-2xl">QUERO COMEÇAR MINHA TRANSFORMAÇÃO</button>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 bg-slate-50">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6 splash-title">O QUE VOCÊ VAI ENCONTRAR NO <span class="stl-gold">IMPÉRIO 3D</span></h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div class="module-card splash-hero-card p-8 rounded-xl shadow-xl border border-slate-700/50 text-white card-gold-dark">
+            <div class="flex items-start space-x-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer text-amber-400 w-12 h-12 flex-shrink-0 mt-2"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect x="6" y="14" width="12" height="8" rx="1"></rect></svg>
+              <div>
+                <h3 class="text-xl font-bold mb-3 text-white">MÓDULO 1: Impressão 3D Descomplicada</h3>
+                <p class="text-slate-200 leading-relaxed">Seus Primeiros Passos no Lucro (para iniciantes)</p>
+              </div>
+            </div>
+          </div>
+          <div class="module-card splash-hero-card p-8 rounded-xl shadow-xl border border-slate-700/50 text-white card-gold-dark">
+            <div class="flex items-start space-x-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain text-amber-400 w-12 h-12 flex-shrink-0 mt-2"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"></path></svg>
+              <div>
+                <h3 class="text-xl font-bold mb-3 text-white">MÓDULO 2: Fundamentos do Empreendedor 3D</h3>
+                <p class="text-slate-200 leading-relaxed">Transformando Ideias em Dinheiro</p>
+              </div>
+            </div>
+          </div>
+          <div class="module-card splash-hero-card p-8 rounded-xl shadow-xl border border-slate-700/50 text-white card-gold-dark">
+            <div class="flex items-start space-x-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up text-amber-400 w-12 h-12 flex-shrink-0 mt-2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+              <div>
+                <h3 class="text-xl font-bold mb-3 text-white">MÓDULO 3: Marketing e Vendas 3D</h3>
+                <p class="text-slate-200 leading-relaxed">Atraindo Clientes e Escalando Lucros</p>
+              </div>
+            </div>
+          </div>
+          <div class="module-card splash-hero-card p-8 rounded-xl shadow-xl border border-slate-700/50 text-white card-gold-dark">
+            <div class="flex items-start space-x-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-amber-400 w-12 h-12 flex-shrink-0 mt-2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              <div>
+                <h3 class="text-xl font-bold mb-3 text-white">MÓDULO 4: Comunidade e Mentoria Exclusiva</h3>
+                <p class="text-slate-200 leading-relaxed">IMPÉRIO 3D (acesso ao vivo e biblioteca de STLs premium)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 bg-slate-100">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6">VEJA O QUE NOSSOS <span class="text-emerald-600">MEMBROS ESTÃO DIZENDO</span></h2>
+        </div>
+
+        <div style="max-width: 100%; margin: 0 auto; padding: 15px;">
+          <div id="storiesContainer" style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); max-height: 600px; height:600px; width: 100%; background: #000;">
+            <div id="storiesTrack" style="display: flex; transition: transform 0.5s ease-in-out; height: 100%; transform: translateX(-100%);">
+              <div class="story-slide" style="min-width: 100%; height: 100%; position: relative; background: #000;">
+                <img decoding="async" src="depoimentos/depfoto01.png" alt="Depoimento Foto 1" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+              </div>
+              <div class="story-slide" style="min-width: 100%; height: 100%; position: relative; background: #000;">
+                <img decoding="async" src="depoimentos/depfoto2.png" alt="Depoimento Foto 2" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+              </div>
+              <div class="story-slide" style="min-width: 100%; height: 100%; position: relative; background: #000;">
+                <img decoding="async" src="depoimentos/depfoto3.png" alt="Depoimento Foto 3" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+              </div>
+              
+            <button id="prevStory" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.7); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 20px; cursor: pointer; z-index: 20; display: block;">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="nextStory" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.7); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 20px; cursor: pointer; z-index: 20; display: block;">
+              <i class="fas fa-chevron-right"></i>
+</button>
+            <div id="storyIndicators" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20;">
+              <span class="indicator active" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transform: scale(1);"></span>
+              <span class="indicator" style="width: 8px; height: 8px; border-radius: 50%; background: rgb(255, 193, 7); cursor: pointer; transform: scale(1.1);"></span>
+              <span class="indicator" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transform: scale(1);"></span>
+              <span class="indicator" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transform: scale(1);"></span>
+              <span class="indicator" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transform: scale(1);"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 splash-hero text-white relative overflow-hidden">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 splash-title">BÔNUS EXCLUSIVOS PARA OS MEMBROS DO IMPÉRIO 3D</h2>
+          <p class="text-xl text-emerald-100 max-w-3xl mx-auto">Além de todo o conteúdo do programa, você ainda recebe estes bônus de alto valor:</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-12">
+          <div class="bonus-card bg-slate-800/90 backdrop-blur-sm p-8 rounded-xl border border-slate-600/50 text-white card-gold-dark">
+            <div class="flex items-start space-x-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open text-amber-400 w-12 h-12 flex-shrink-0 mt-2"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold mb-3 text-white">Biblioteca Premium de STLs</h3>
+                <p class="text-slate-200 mb-4 leading-relaxed">Mais de 500 arquivos exclusivos para impressão</p>
+                <div class="text-2xl font-bold text-amber-400">R$ 497</div>
+              </div>
+            </div>
+          </div>
+          <div class="bonus-card bg-slate-800/90 backdrop-blur-sm p-8 rounded-xl border border-slate-600/50 text-white card-gold-dark">
+            <div class="flex items-start space-x-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video text-amber-400 w-12 h-12 flex-shrink-0 mt-2"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold mb-3 text-white">Masterclass de Precificação</h3>
+                <p class="text-slate-200 mb-4 leading-relaxed">Como precificar seus produtos para máximo lucro</p>
+                <div class="text-2xl font-bold text-amber-400">R$ 397</div>
+              </div>
+            </div>
+          </div>
+          <div class="bonus-card bg-slate-800/90 backdrop-blur-sm p-8 rounded-xl border border-slate-600/50 text-white card-gold-dark">
+            <div class="flex items-start space-x-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-amber-400 w-12 h-12 flex-shrink-0 mt-2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold mb-3 text-white">Grupo VIP no Telegram</h3>
+                <p class="text-slate-200 mb-4 leading-relaxed">Acesso direto aos mentores e networking</p>
+                <div class="text-2xl font-bold text-amber-400">R$ 597</div>
+              </div>
+            </div>
+          </div>
+          <div class="bonus-card bg-slate-800/90 backdrop-blur-sm p-8 rounded-xl border border-slate-600/50 text-white card-gold-dark">
+            <div class="flex items-start space-x-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gift text-amber-400 w-12 h-12 flex-shrink-0 mt-2"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold mb-3 text-white">Templates de Marketing</h3>
+                <p class="text-slate-200 mb-4 leading-relaxed">Posts prontos para redes sociais e campanhas</p>
+                <div class="text-2xl font-bold text-amber-400">R$ 500</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="inline-block bg-slate-800/90 backdrop-blur-sm px-8 py-4 rounded-full border border-slate-600/50">
+            <span class="text-2xl md:text-3xl font-bold text-white">VALOR TOTAL DOS BÔNUS: <span class="text-amber-400">R$ 1.991</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 relative overflow-hidden" style="background-image:url('depoimentos/maquina3d.png'); background-size:cover; background-position:center;">
+      <div style="position:absolute; inset:0; background:rgba(0,0,0,0.45);"></div>
+      <div class="container mx-auto relative z-10">
+        <div class="max-w-4xl" style="background:rgba(0,0,0,0.45); padding:24px; border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,0.35);">
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Quem se inscrever no IMPÉRIO 3D, além do curso completo, vai concorrer a uma Impressora 3D novinha.</h2>
+          <p class="text-lg mb-4" style="color:#e5e7eb; text-shadow:0 1px 2px rgba(0,0,0,0.6);">TODOS que garantirem essa oferta insana do IMPÉRIO 3D, hoje até 23:59, estarão concorrendo ao sorteio! Você pode comprar o curso e ganhar uma impressora, é bom ou não é?</p>
+          <p class="text-sm text-white/80">Exclusivo para moradores do Brasil.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="py-20 px-4 bg-slate-50">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6 splash-title">INVESTIMENTO PARA <span class="stl-gold">TRANSFORMAR SUA VIDA</span></h2>
+          <p class="text-xl text-slate-600 max-w-3xl mx-auto">Quanto vale transformar seu hobby em um negócio de 6 dígitos por ano?</p>
+        </div>
+        <div class="max-w-2xl mx-auto">
+          <div class="splash-hero-card p-8 rounded-2xl shadow-2xl text-white relative overflow-hidden card-gold-dark">
+            <div class="relative z-10">
+              <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold mb-4 text-white">IMPÉRIO 3D COMPLETO</h3>
+                <p class="text-slate-200 text-lg">4 Módulos + Mentoria + Comunidade VIP + Todos os Bônus</p>
+              </div>
+              <div class="text-center mb-8">
+                <div class="text-slate-400 text-xl line-through mb-2">R$ 5.579</div>
+                <div class="text-6xl font-bold text-amber-400 mb-2">R$ 47,00</div>
+                <div class="text-slate-200">Pagamento único</div>
+              </div>
+              <button class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-bold py-6 text-xl rounded-full shadow-xl w-full">QUERO GARANTIR MINHA VAGA AGORA</button>
+              <div class="grid md:grid-cols-3 gap-4 text-center text-sm mt-6">
+                <div class="text-white">Apenas 100 vagas disponíveis</div>
+                <div class="text-white">Pagamento 100% seguro</div>
+                <div class="text-white">Acesso imediato após a compra</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 p-6 bg-red-50 border border-red-200 rounded-xl card-gold">
+            <h4 class="text-xl font-bold text-red-800 mb-2">⚠️ ATENÇÃO: OFERTA POR TEMPO LIMITADO</h4>
+            <p class="text-red-700">Em breve, o programa voltará ao valor integral de R$ 197. Aproveite a condição especial.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 stl-section-dark text-white">
+      <div class="container mx-auto text-center">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-4xl md:text-5xl font-bold mb-8 text-white">🛡️ GARANTIA INCONDICIONAL DE <span class="text-amber-400">30 DIAS</span></h2>
+          <p class="text-xl md:text-2xl mb-8 leading-relaxed text-white">Se em 30 dias você não estiver completamente satisfeito com o conteúdo e os resultados, devolvemos 100% do seu investimento.</p>
+          <div class="bg-emerald-600/20 p-8 rounded-xl border border-emerald-500/30">
+            <h3 class="text-2xl font-bold text-amber-400 mb-4">Você não tem nada a perder e um império lucrativo a ganhar!</h3>
+            <p class="text-lg text-slate-200">Teste todo o conteúdo, aplique as estratégias, participe da comunidade. Se não ficar satisfeito, é só solicitar o reembolso.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 bg-slate-100">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6">PERGUNTAS FREQUENTES</h2>
+        </div>
+        <div class="max-w-4xl mx-auto space-y-4">
+          <details class="bg-white rounded-lg shadow-lg p-6"><summary class="text-lg font-semibold cursor-pointer">Preciso ter experiência com impressão 3D?</summary><div class="pt-4 text-slate-700">Não! O programa foi desenvolvido tanto para iniciantes quanto para quem já tem experiência.</div></details>
+          <details class="bg-white rounded-lg shadow-lg p-6"><summary class="text-lg font-semibold cursor-pointer">Quanto tempo tenho acesso ao conteúdo?</summary><div class="pt-4 text-slate-700">O acesso é vitalício. Assista no seu ritmo, quantas vezes quiser.</div></details>
+          <details class="bg-white rounded-lg shadow-lg p-6"><summary class="text-lg font-semibold cursor-pointer">Como funciona a comunidade VIP?</summary><div class="pt-4 text-slate-700">Acesso a um grupo exclusivo no Telegram para suporte direto e networking.</div></details>
+          <details class="bg-white rounded-lg shadow-lg p-6"><summary class="text-lg font-semibold cursor-pointer">Preciso de uma impressora específica?</summary><div class="pt-4 text-slate-700">As estratégias funcionam com qualquer impressora 3D.</div></details>
+          <details class="bg-white rounded-lg shadow-lg p-6"><summary class="text-lg font-semibold cursor-pointer">Posso parcelar o pagamento?</summary><div class="pt-4 text-slate-700">Esta oferta especial é pagamento à vista por R$ 47.</div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-4 stl-section-dark text-white">
+      <div class="container mx-auto text-center">
+        <h2 class="text-4xl md:text-6xl font-bold mb-8">NÃO DEIXE ESTA <span class="text-amber-400">OPORTUNIDADE PASSAR!</span></h2>
+        <p class="text-xl md:text-2xl mb-12 max-w-4xl mx-auto">Esta é sua chance de sair da zona de conforto e construir o império lucrativo que você sempre sonhou.</p>
+        <button class="btn-gold font-bold py-8 px-16 text-2xl rounded-full shadow-2xl">GARANTIR MINHA VAGA AGORA</button>
+        <p class="mt-8 text-lg opacity-90 text-white">⚡ Acesso imediato • 🔒 Pagamento seguro • 🛡️ Garantia de 30 dias</p>
+      </div>
+    </section>
+
+    <footer class="stl-section-dark text-white py-12 px-4">
+      <div class="container mx-auto text-center">
+        <div class="mb-8">
+          <h3 class="text-2xl font-bold mb-4 stl-gold">IMPÉRIO 3D</h3>
+          <p class="text-slate-300 max-w-2xl mx-auto">Transformando hobbies em impérios lucrativos através da impressão 3D</p>
+        </div>
+        <div class="border-t border-slate-700 pt-8">
+          <p class="text-slate-400 text-sm mb-4">© 2024 IMPÉRIO 3D. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+  (function(){
+    // Modo rico (primeira seção): play com som, pausa carrossel durante reprodução, retoma após 5s
+    function initRich(container){
+      var track = container.querySelector('#storiesTrack');
+      if(!track) return;
+      var slides = [].slice.call(track.querySelectorAll('.story-slide'));
+      var prev = container.querySelector('#prevStory');
+      var next = container.querySelector('#nextStory');
+      var indWrap = container.querySelector('#storyIndicators');
+      var indicators = indWrap ? [].slice.call(indWrap.querySelectorAll('.indicator')) : [];
+      var index = 0;
+      var autoInterval = null;
+      var idleTimeout = null;
+      var isPlaying = false;
+
+      function clearAuto(){ if(autoInterval){ clearInterval(autoInterval); autoInterval=null; } }
+      function clearIdle(){ if(idleTimeout){ clearTimeout(idleTimeout); idleTimeout=null; } }
+      function startAuto(){ if(isPlaying) return; clearAuto(); autoInterval=setInterval(function(){ index=(index+1)%slides.length; isPlaying=false; update(); }, 2000); }
+      function startIdle(){ clearIdle(); clearAuto(); idleTimeout=setTimeout(function(){ startAuto(); }, 5000); }
+
+      function update(){
+        track.style.transform = 'translateX(-'+(index*100)+'%)';
+        for (var i=0;i<indicators.length;i++){
+          var active = (i===index);
+          indicators[i].style.background = active ? 'rgb(255,193,7)' : 'rgba(255,255,255,0.5)';
+          indicators[i].style.transform = active ? 'scale(1.1)' : 'scale(1)';
+        }
+        for (var s=0; s<slides.length; s++){
+          var v = slides[s].querySelector('video');
+          var btn = slides[s].querySelector('.play-pause-btn');
+          if(v){
+            if(s === index){
+              if(isPlaying){
+                v.muted = false; v.volume = 1.0; v.play().catch(function(){});
+                if(btn){ btn.textContent='❚❚'; btn.style.display='block'; }
+                clearAuto(); clearIdle();
+              } else {
+                try{ v.pause(); }catch(e){}
+                if(btn){ btn.textContent='►'; btn.style.display='block'; }
+                startIdle();
+              }
+            } else {
+              try{ v.pause(); }catch(e){}
+              if(btn){ btn.textContent='►'; btn.style.display='block'; }
+            }
+          } else {
+            if(btn){ btn.style.display='none'; }
+          }
+        }
+      }
+
+      function goNext(){ index=(index+1)%slides.length; isPlaying=false; update(); }
+      function goPrev(){ index=(index-1+slides.length)%slides.length; isPlaying=false; update(); }
+      if(next) next.addEventListener('click', function(){ clearAuto(); clearIdle(); goNext(); startIdle(); });
+      if(prev) prev.addEventListener('click', function(){ clearAuto(); clearIdle(); goPrev(); startIdle(); });
+      slides.forEach(function(slide, idx){
+        var btn = slide.querySelector('.play-pause-btn');
+        var v = slide.querySelector('video');
+        if(btn && v){
+          btn.addEventListener('click', function(e){
+            e.stopPropagation();
+            if(index!==idx){ index=idx; isPlaying=true; update(); return; }
+            if(v.paused){ isPlaying=true; update(); } else { isPlaying=false; try{v.pause();}catch(e){}; update(); }
+          });
+          v.addEventListener('ended', function(){ isPlaying=false; startIdle(); });
+          slide.addEventListener('click', function(){ clearAuto(); clearIdle(); startIdle(); });
+        }
+      });
+      update();
+      startIdle();
+    }
+
+    // Modo simples (segunda seção): sem botões/setas/som, troca a cada 3s
+    function initSimple(container){
+      var track = container.querySelector('#storiesTrack');
+      if(!track) return;
+      var slides = [].slice.call(track.querySelectorAll('.story-slide'));
+      var indWrap = container.querySelector('#storyIndicators');
+      var indicators = indWrap ? [].slice.call(indWrap.querySelectorAll('.indicator')) : [];
+      var index = 0;
+      var interval = null;
+
+      // Oculta quaisquer controles e setas existentes
+      [].slice.call(container.querySelectorAll('.story-controls, .play-pause-btn, #prevStory, #nextStory')).forEach(function(el){ el.style.display='none'; });
+
+      function update(){
+        track.style.transform = 'translateX(-'+(index*100)+'%)';
+        for (var i=0;i<indicators.length;i++){
+          var active = (i===index);
+          indicators[i].style.background = active ? 'rgb(255,193,7)' : 'rgba(255,255,255,0.5)';
+          indicators[i].style.transform = active ? 'scale(1.1)' : 'scale(1)';
+        }
+        for (var s=0; s<slides.length; s++){
+          var v = slides[s].querySelector('video');
+          if(v){
+            if(s===index){ v.muted=true; v.play().catch(function(){}); }
+            else { try{ v.pause(); }catch(e){} }
+          }
+        }
+      }
+      function start(){ stop(); interval=setInterval(function(){ index=(index+1)%slides.length; update(); }, 3000); }
+      function stop(){ if(interval){ clearInterval(interval); interval=null; } }
+      update(); start();
+    }
+
+    function initAll(){
+      var containers = document.querySelectorAll('#storiesContainer');
+      containers.forEach(function(container, idx){
+        if(idx === 0) initRich(container); else initSimple(container);
+      });
+    }
+
+    function boot(){
+      if(window.__storiesInitDone) return;
+      window.__storiesInitDone = true;
+      initAll();
+    }
+    if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded', boot);
+    window.addEventListener('load', boot);
+  })();
+  </script>
+</body>
+</html>
